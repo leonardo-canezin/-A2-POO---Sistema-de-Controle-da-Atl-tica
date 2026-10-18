@@ -6,7 +6,7 @@ public class Vistoria {
     private  boolean freio;
     private boolean corrente;
 
-    //Construtor com todas as informações pois todas são necessárias na vistoria
+    //Construtor
     public Vistoria(boolean pneu, boolean freio, boolean corrente){
         this.pneu = pneu;
         this.freio = freio;

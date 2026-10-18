@@ -44,14 +44,14 @@ public abstract class Usuario {
     //---------------------------------------------------Heranças----------------------------------------------------------
 
     public class Aluno extends Usuario {
-        private String curso; //Diferença entre Aluno e outras subclasses
+        private String curso; //Atributo unico do Aluno
 
         public Aluno(String id, String nome, String telefone, String curso) {
             super(id, nome, telefone);
             this.curso = curso;
         }
 
-        //--------------------------------------------Getter do Aluno----------------------------------------------
+        //Getter unico do Aluno
         public String getCurso() {
             return curso;
         }
@@ -59,14 +59,14 @@ public abstract class Usuario {
 
 
     public class Funcionario extends Usuario {
-        private String setor; //Diferença entre o Funcionario e outras subclases
+        private String setor; ////Atributo unico do Fncionario
 
         public Funcionario(String id, String nome, String telefone, String setor) {
             super(id, nome, telefone);
             this.setor = setor;
         }
 
-        //--------------------------------------------Getter do funcionario----------------------------------------------
+        ////Getter unico do funcionario
         public String getSetor() {
             return setor;
         }
