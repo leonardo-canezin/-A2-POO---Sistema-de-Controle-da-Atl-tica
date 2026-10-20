@@ -36,10 +36,11 @@ public abstract class Equipamento {
         return this.historicoEmprestimo;
     }
 
+
     //-------------------------------------------Funções-----------------------------------------------------------
     //Cada dia tem um prazo diferente, então é abstrata e damos override nas subclasses.
     //Utilizaremos para calcular os prazos na classe "Emprestimo"
-    public abstract int obterPrazoMaximoDias();
+    public abstract int getPrazoMaximoDias();
 
 
     //------------------------------------------Heranças------------------------------------------------------------
@@ -60,7 +61,7 @@ public abstract class Equipamento {
 
         //Funções e overrides da bola
         @Override
-        public int obterPrazoMaximoDias() {
+        public int getPrazoMaximoDias() {
             return 0; // Até o fim do mesmo dia
         }
 
@@ -90,7 +91,7 @@ public abstract class Equipamento {
 
         //Funções e overrides do Colete
         @Override
-        public int obterPrazoMaximoDias() {
+        public int getPrazoMaximoDias() {
             return 0; // Até o fim do dia
         }
 
@@ -103,7 +104,7 @@ public abstract class Equipamento {
 
         //Funções e overrides da Raquete
         @Override
-        public int obterPrazoMaximoDias() {
+        public int getPrazoMaximoDias() {
             return 2; // até 2 dias
         }
     }
@@ -124,7 +125,7 @@ public abstract class Equipamento {
 
         //Funções e overrides da Bicicleta
         @Override
-        public int obterPrazoMaximoDias() {
+        public int getPrazoMaximoDias() {
             return 7; // Até 1 semana (7 dias)
         }
     }

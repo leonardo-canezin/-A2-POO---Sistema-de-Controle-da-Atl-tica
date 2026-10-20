@@ -20,7 +20,7 @@ public class Emprestimo {
         this.dataRetirada = dataRetirada;
         // Função para calcular o tempo previsto com base no tipo do equipamento. 
         // É utilizado polimorfismo inclusive, já que utiliza somente a classe equipamento
-        this.dataPrevistaDevolucao = dataRetirada.plusDays(equipamento.obterPrazoMaximoDias());
+        this.dataPrevistaDevolucao = dataRetirada.plusDays(equipamento.getPrazoMaximoDias());
         this.dataRealDevolucao = null;
         this.ativo = true;
         this.vistoriaDevolucao = null;
