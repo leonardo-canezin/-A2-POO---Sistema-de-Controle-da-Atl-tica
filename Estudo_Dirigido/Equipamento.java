@@ -45,9 +45,16 @@ public abstract class Equipamento {
     }
 
     //---------------------------------------------Setters---------------------------------------------------------
-    // Ve se está disponível
+    // seta como disponível
     public void setDisponivel(boolean disponivel){
         this.disponivel = disponivel;
+    }
+
+    //Pra verificar se voltou estragado
+    public void setEstadoConservacao(String estadoConservacao) {
+        if (estadoConservacao != null && !estadoConservacao.trim().isEmpty()) {
+            this.estadoConservacao = estadoConservacao.trim();
+        }
     }
 
     //-------------------------------------------Funções-----------------------------------------------------------
@@ -56,10 +63,32 @@ public abstract class Equipamento {
     // Troquei para obterPrazoMaximoDias pois usei na classe Emprestimo
     public abstract int obterPrazoMaximoDias();
 
+    //Coloquei essas duas próximas funções pra não ser necessário dar instanceOf depois
+    public abstract String obterCategoria();
+
+    public boolean precisaVistoria() {
+        return false;
+    }
+
     // Atualiza a lista depois que um emprestimo é concluido
     public void adicionarHistorico(Emprestimo emprestimo){
         this.historicoEmprestimo.add(emprestimo);
     }
+
+    //Estou fazendo uma toString em todas as classes pra evitar instance of depois
+    @Override
+    public String toString() {
+    String prazoTexto;
+
+    if (obterPrazoMaximoDias() == 0) {
+        prazoTexto = "Mesmo dia";
+    } else {
+        prazoTexto = obterPrazoMaximoDias() + " dias";
+    }
+
+    return String.format("Cód: %d | [%s] %s | Conservação: %s | Prazo máx: %s",
+            codigo, obterCategoria(), descricao, estadoConservacao, prazoTexto);
+}
 
     //------------------------------------------Heranças------------------------------------------------------------
 
@@ -82,6 +111,11 @@ public abstract class Equipamento {
         @Override
         public int obterPrazoMaximoDias() {
             return 0; // Até o fim do mesmo dia
+        }
+
+        @Override
+        public String obterCategoria() {
+            return "Bola (" + modalidade + ")";
         }
 
     }
@@ -114,6 +148,11 @@ public abstract class Equipamento {
             return 0; // Até o fim do dia
         }
 
+        @Override
+        public String obterCategoria() {
+            return "Colete (" + cor + " - Tam: " + tamanho + ")";
+        }
+
     }
 
     public static class Raquete extends Equipamento {
@@ -125,6 +164,11 @@ public abstract class Equipamento {
         @Override
         public int obterPrazoMaximoDias() {
             return 2; // até 2 dias
+        }
+
+        @Override
+        public String obterCategoria() {
+            return "Raquete de Tênis de Mesa";
         }
     }
 
@@ -151,6 +195,17 @@ public abstract class Equipamento {
         @Override
         public int obterPrazoMaximoDias() {
             return 7; // Até 1 semana (7 dias)
+        }
+
+        //Unico caso que vai ser true, apenas a bicicleta precisa
+        @Override
+        public boolean precisaVistoria() {
+            return true;
+        }
+
+        @Override
+        public String obterCategoria() {
+            return "Bicicleta";
         }
     }
 }
