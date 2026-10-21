@@ -9,11 +9,10 @@ public abstract class Equipamento {
     private int codigo;
     private boolean disponivel;
     private String estadoConservacao;
-    private String descricao;
     private  List<Emprestimo> historicoEmprestimo;
 
     //Construtor
-    public Equipamento (int codigo, String descricao, String estadoConservacao) {
+    public Equipamento (int codigo, String estadoConservacao) {
         if (codigo <= 0){ //Caso tentem cadastrar um código negativo
             throw new IllegalArgumentException("O código precisa ser positivo");
         }
@@ -21,7 +20,6 @@ public abstract class Equipamento {
         this.codigo = codigo;
         this.disponivel = true;
         this.estadoConservacao = estadoConservacao;
-        this.descricao = descricao;
         this.historicoEmprestimo = new ArrayList<>(); //Inicia uma Array para termos o histórico
     }
 
@@ -36,9 +34,6 @@ public abstract class Equipamento {
     }
     public String getEstadoConservacao() {
         return estadoConservacao;
-    }
-    public String getDescricao(){
-        return descricao;
     }
     public List<Emprestimo> getHistoricoEmprestimo() {
         return this.historicoEmprestimo;
@@ -86,8 +81,8 @@ public abstract class Equipamento {
         prazoTexto = obterPrazoMaximoDias() + " dias";
     }
 
-    return String.format("Cód: %d | [%s] %s | Conservação: %s | Prazo máx: %s",
-            codigo, obterCategoria(), descricao, estadoConservacao, prazoTexto);
+    return String.format("Cód: %d | [%s] | Conservação: %s | Prazo máx: %s",
+            codigo, obterCategoria(), estadoConservacao, prazoTexto);
 }
 
     //------------------------------------------Heranças------------------------------------------------------------
@@ -97,8 +92,8 @@ public abstract class Equipamento {
         private String modalidade; //Atributo unico da Bola, já que o enunciado não especificou nenhum
 
         //Construtor
-        public Bola (int codigo, String descricao, String estadoConservacao, String modalidade) {
-            super (codigo, descricao, estadoConservacao);
+        public Bola (int codigo, String estadoConservacao, String modalidade) {
+            super (codigo, estadoConservacao);
             this.modalidade = modalidade;
         }
         
@@ -128,8 +123,8 @@ public abstract class Equipamento {
         private  String cor;
 
         //Construtor
-        public Colete(int codigo, String descricao, String estadoConservacao, String tamanho, String cor) {
-            super(codigo, descricao, estadoConservacao);
+        public Colete(int codigo, String estadoConservacao, String tamanho, String cor) {
+            super(codigo, estadoConservacao);
             this.tamanho = tamanho;
             this.cor = cor;
         }
@@ -156,8 +151,8 @@ public abstract class Equipamento {
     }
 
     public static class Raquete extends Equipamento {
-        public Raquete(int codigo, String descricao, String estadoConservacao){
-            super(codigo, descricao, estadoConservacao);
+        public Raquete(int codigo, String estadoConservacao){
+            super(codigo, estadoConservacao);
         }
 
         //Funções e overrides da Raquete
@@ -176,8 +171,8 @@ public abstract class Equipamento {
         private  Vistoria ultimaVistoria; //Para guardar o estado dos componentes de cada bicicleta 
 
         //Construtor
-        public Bicicleta (int codigo, String descricao, String estadoConservacao){
-            super (codigo, descricao, estadoConservacao);
+        public Bicicleta (int codigo, String estadoConservacao){
+            super (codigo, estadoConservacao);
             this.ultimaVistoria = null;
         }
 

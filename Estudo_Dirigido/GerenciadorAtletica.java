@@ -1,5 +1,4 @@
 package Estudo_Dirigido;
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -67,7 +66,7 @@ public class GerenciadorAtletica {
 
     
     //Função mais complexa que realiza todo o emprestimo com as outras funçõpes que criamos
-    public Emprestimo realizarEmprestimo(String idUsuario, int codigoEquipamento, LocalDate dataRetirada) {
+    public Emprestimo realizarEmprestimo(String idUsuario, int codigoEquipamento, int dataRetirada) {
         //Encontra o usuario pelo ID
         Usuario usuario = buscarUsuarioPorId(idUsuario);
         //Encontra o equipamento pelo codigo
@@ -111,7 +110,7 @@ public class GerenciadorAtletica {
         throw new IllegalStateException("Não há nenhum empréstimo ativo para esse equipamento");
     }
 
-    public long realizarDevolucao(int codigoEquipamento, LocalDate dataEntrega, String estadoConservacao, Vistoria vistoria) 
+    public int realizarDevolucao(int codigoEquipamento, int dataEntrega, String estadoConservacao, Vistoria vistoria) 
 
         throws Exception {
         Emprestimo emp = buscarEmprestimoAtivoPorEquipamento(codigoEquipamento);
@@ -138,7 +137,7 @@ public class GerenciadorAtletica {
         usuario.decrementarItens();
 
         //Aplica suspensão se necessário com base nos dias de atraso
-        long diasSuspensao = emp.calcularSuspensao();
+        int diasSuspensao = emp.calcularSuspensao();
         if (diasSuspensao > 0) {
             usuario.aplicarSuspensao(diasSuspensao, dataEntrega);
         }

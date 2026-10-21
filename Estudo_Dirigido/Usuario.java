@@ -1,13 +1,11 @@
 package Estudo_Dirigido;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 
 public abstract class Usuario {
     private String id; //Utilizaremos para identificar o usuário
     private String nome;
     private String telefone;
     private int quantidadeEmprestados;
-    private LocalDate fimBloqueio; //Variavel de tempo para guardarmos quando acaba o bloqueio se houver
+    private int fimBloqueio; //Variavel de tempo para guardarmos quando acaba o bloqueio se houver
 
     //Construtor de classe
     public Usuario (String id, String nome, String telefone){
@@ -20,7 +18,7 @@ public abstract class Usuario {
         this.nome = nome;
         this.telefone = telefone;
         this.quantidadeEmprestados = 0; //Valor padrão para o primeiro cadastro
-        this.fimBloqueio = null;
+        this.fimBloqueio = 0;
 
     }
 
@@ -37,7 +35,7 @@ public abstract class Usuario {
     public int getQuantidadeEmprestados() {
         return  quantidadeEmprestados;
     }
-    public LocalDate getFimBloqueio() {
+    public int getFimBloqueio() {
         return  fimBloqueio;
     }
 
@@ -46,13 +44,13 @@ public abstract class Usuario {
     public abstract int getLimiteEmprestimos();
     public abstract String getTipoPerfil();
 
-    public boolean estaBloqueado (LocalDate dataReferencia) {
+    public boolean estaBloqueado (int dataReferencia) {
         //Escrevendo desse jeito fazemos como se fosse um IF, onde ele retorna apenas se as condições forem verdadeiras
         //Resumidamente, retorna true se existir data de fim, e se a data de referencia não passou da data fim (Bloqueio)
-        return fimBloqueio != null && !dataReferencia.isAfter(fimBloqueio);
+        return fimBloqueio != 0 && !(dataReferencia > fimBloqueio);
     }
 
-    public boolean podePegarEmprestado(LocalDate dataReferencia) {
+    public boolean podePegarEmprestado(int dataReferencia) {
         //Se está bloqueado, não pode pegar emrestado
         if (estaBloqueado(dataReferencia)) {
             return false;
@@ -61,18 +59,18 @@ public abstract class Usuario {
     }
 
     // Recebe os dias de suspensão já calculados por emp.calcularSuspensao()
-    public void aplicarSuspensao(long diasSuspensao, LocalDate dataDevolucao) {
+    public void aplicarSuspensao(int diasSuspensao, int dataDevolucao) {
         if (diasSuspensao > 0) {
             //Temos que declarar isso aqui como LocalDate porque o fim de bloqueio está como local date
-            LocalDate base;
+            int base;
 
-            if (fimBloqueio != null && fimBloqueio.isAfter(dataDevolucao)) {
+            if (fimBloqueio != 0 && fimBloqueio > dataDevolucao) {
                 base = fimBloqueio;
             } else {
                 base = dataDevolucao;
             }
 
-            this.fimBloqueio = base.plusDays(diasSuspensao);
+            this.fimBloqueio = base + diasSuspensao;
         }
     }
 
@@ -89,10 +87,9 @@ public abstract class Usuario {
     //É uma funbção de biblioteca que imprime os valores. O String.format funciona igual o printf de "C" inclusive
     @Override
     public String toString() {
-        DateTimeFormatter fmt = DateTimeFormatter.ofPattern("dd/MM/yyyy");
         String statusBloqueio;
-        if (fimBloqueio != null){
-            statusBloqueio = " | Bloqueado até: " + fimBloqueio.format(fmt);
+        if (fimBloqueio != 0){
+            statusBloqueio = " | Bloqueado até: " + fimBloqueio;
         } else {
             statusBloqueio = "| Sem bloqueio";
         }
@@ -103,7 +100,7 @@ public abstract class Usuario {
 
     //---------------------------------------------------Heranças----------------------------------------------------------
 
-    public class Aluno extends Usuario {
+    public static class Aluno extends Usuario {
         private String curso; //Atributo unico do Aluno
 
         public Aluno(String id, String nome, String telefone, String curso) {
@@ -128,7 +125,7 @@ public abstract class Usuario {
     }
 
 
-    public class Funcionario extends Usuario {
+    public static class Funcionario extends Usuario {
         private String setor; ////Atributo unico do Fncionario
 
         public Funcionario(String id, String nome, String telefone, String setor) {
